@@ -3,11 +3,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.saviynt.ssm.vaultconnector</groupId>
-    <artifactId>cyberarkccp</artifactId>
+    <artifactId>cyberark-vault-connector</artifactId>
     <version>1.0</version>
     <packaging>jar</packaging>
 
-    <name>cyberarkccpconnector</name>
+    <name>cyberark-vault-connector</name>
     <url>http://maven.apache.org</url>
 
     <properties>
@@ -22,10 +22,10 @@
         <dependency>
             <groupId>com.saviynt.ssm</groupId>
             <artifactId>abstractConnector</artifactId>
-            <version>8.11.1</version>
+            <version>8.10.9</version>
             <scope>system</scope>
             <systemPath>
-                C:/Users/saurabh.bangar/Downloads/sampleConnector-master/sampleConnector-master/lib/abstractConnector-8.10.9.jar
+                ${project.basedir}/lib/abstractConnector-8.10.9.jar
             </systemPath>
         </dependency>
         <dependency>
@@ -104,13 +104,13 @@
                 <directory>src/main/resources</directory>
             </resource>
         </resources>
-        <finalName>cyberarkccpconnector</finalName>
+        <finalName>cyberark-vault-connector</finalName>
         <plugins>
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <version>3.2.0</version>
                 <configuration>
-                    <finalName>cyberarkccpconnector-full</finalName>
+                    <finalName>cyberark-vault-connector</finalName>
                     <appendAssemblyId>false</appendAssemblyId>
 
                     <descriptorRefs>
@@ -118,7 +118,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifestEntries>
-                            <connectorClass>com.saviynt.ssm.vaultconnector.cyberarkccp.CyberArkCCPConnector
+                            <connectorClass>com.saviynt.ssm.vaultconnector.cyberark.CyberArkVaultConnector
                             </connectorClass>
                         </manifestEntries>
                     </archive>
