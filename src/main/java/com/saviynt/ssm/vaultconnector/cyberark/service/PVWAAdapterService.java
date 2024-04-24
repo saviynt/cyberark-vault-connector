@@ -67,7 +67,7 @@ public class PVWAAdapterService {
 
                             String safeName = (String) attributeJSONToBeProcessed.get("SafeName");
 
-                            String filterValue = String.format("accountName eq '%s' and safeName eq '%s'", accountName, safeName);
+                            String filterValue = String.format("accountName eq '%s' AND safeName eq '%s'", accountName, safeName);
 
                             // Encode the filter parameter value
                             String encodedFilterValue = URLEncoder.encode(filterValue, StandardCharsets.UTF_8.toString()).replace("+", "%20");
