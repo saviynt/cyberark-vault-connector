@@ -1,7 +1,5 @@
 package com.saviynt.ssm.vaultconnector.cyberark.service;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.saviynt.ssm.abstractConnector.exceptions.ConnectorException;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -11,21 +9,16 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 public class PVWAAuthenticationService {
     private static final Logger logger = LoggerFactory.getLogger(PVWAAuthenticationService.class);
-
 
     public String testPVWAConnection(String url, Map<String, Object> data) throws Exception {
 
         logger.info("Entered in PVWAAuthenticationService --> testPVWAConnection() method");
 
         String token = null;
-
         String username = (String) data.get("PVWA_USERNAME");
         String password = (String) data.get("PVWA_PASSWORD");
         String hostname = (String) data.get("HOSTNAME");
@@ -40,7 +33,7 @@ public class PVWAAuthenticationService {
 
             HttpPost httpPost = new HttpPost(url);
 
-            logger.info("URL: "+url);
+            logger.info("PVWA Auth URL: "+url);
 
             // Prepare JSON data
             String json = String.format("{\"username\":\"%s\",\"password\":\"%s\"}", username, password);
@@ -58,24 +51,22 @@ public class PVWAAuthenticationService {
             if (statusCode == 200) {
                 logger.info("Authentication successful. Status Code: " + statusCode);
                 String responseBody = EntityUtils.toString(response.getEntity());
-                //below logger to be removed
-                logger.info("Response received: "+responseBody);
-
                 token = responseBody.replaceAll("[{}\"\n]", "");
-
-                // below logger to be removed
-                logger.info("Auth token from Cyberark:"+ token);
 
                 if(null==token)
                 {
+                    logger.error("Received token value as null");
                     throw new ConnectorException("Error while fetching access token");
+                }
+                else
+                {
+                    logger.info("Fetched the auth token...");
                 }
             } else {
                 logger.info("Authentication failed. Status Code: " + statusCode);
             }
         } catch (Exception e) {
             logger.error("Error occurred in testPVWAConnection method : "+e);
-            e.printStackTrace();
             throw e;
         }
         logger.info("Exiting from testPVWAConnection method execution");

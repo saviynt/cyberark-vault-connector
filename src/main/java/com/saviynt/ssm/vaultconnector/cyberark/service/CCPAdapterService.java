@@ -19,7 +19,10 @@ import java.io.FileInputStream;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.security.KeyStore;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.StringJoiner;
 
 public class CCPAdapterService {
 
@@ -73,10 +76,10 @@ public class CCPAdapterService {
 
             CloseableHttpResponse response = httpClient.execute(httpGet);
             if(null!=response) {
+
                 String responseBody = EntityUtils.toString(response.getEntity());
 
-                //logger to be removed
-                logger.info("Response from CCP : " + responseBody);
+                logger.info("Parsing response received from CCP...");
 
                 // Parse JSON response
                 ObjectMapper objectMapper = new ObjectMapper();
@@ -120,27 +123,17 @@ public class CCPAdapterService {
 
             String authCertPath = authenticationService.getPEMKeyFilePath(authCert);
 
-            //below logger to be removed
-            logger.info("certificate path:" + authCertPath);
-
             if (vaultConfigData != null) {
                 Map<String, Object> vaultConfigJSON = (Map<String, Object>) vaultConfigData.get("keyMapping");
 
-                //below logger to be removed
-                logger.info("keyMapping:" + vaultConfigJSON);
-
-
                 if (data.containsKey("encryptedConnAttr")) {
                     Map<String, String> encryptedConnAttr = (Map<String, String>) data.get("encryptedConnAttr");
-
-                    //below logger to be removed
-                    logger.info("encryptedConnAttr:" + encryptedConnAttr);
 
                     for (Map.Entry<String, String> dataMap : encryptedConnAttr.entrySet()) {
                         String attributeName = (String) dataMap.getKey();
                         Map<String, Object> attributeJSONToBeProcessed = (HashMap<String, Object>) vaultConfigJSON.get(attributeName);
 
-                        logger.info("attributeName:" + attributeName);
+                        logger.info("Parameter Name:" + attributeName);
                         logger.info("Corresponding vault config:" + attributeJSONToBeProcessed);
 
                         if (Objects.isNull(attributeJSONToBeProcessed)) {
@@ -156,27 +149,16 @@ public class CCPAdapterService {
 
                             if (attributeValue != null) {
                                 logger.info("SecretValue fetched from vault");
-
-                                //below logger to be removed
-                                logger.info("password value is:"+attributeValue);
-
                             } else {
-                                logger.debug("Attribute " + secretAttributeName + " not found in the response");
+                                logger.info("Attribute " + secretAttributeName + " not found in the response");
                                 throw new ConnectorException("Attribute " + secretAttributeName + " not found in the response");
                             }
 
-                            //String keyName = (String) ((Map) vaultConfigJSON.get(attributeName)).get("keyName");
-
                             valueMap.put(attributeName, attributeValue);
-
-
                         }
-
                     }
-
                 }
             }
-
         } catch (Exception e) {
             logger.error("Error occurred in CCPAdapterService --> getSecretFromVault", e);
             throw e;
@@ -187,9 +169,6 @@ public class CCPAdapterService {
         logger.debug("Exiting from CCPAdapterService --> getSecretFromVault");
         return responseData;
     }
-
-
-
 }
 
 

@@ -3,16 +3,19 @@ package com.saviynt.ssm.vaultconnector.cyberark;
 import com.saviynt.ssm.abstractConnector.VaultConfigVo;
 import com.saviynt.ssm.abstractConnector.VaultConnectorSpecification;
 import com.saviynt.ssm.abstractConnector.exceptions.*;
-import com.saviynt.ssm.vaultconnector.cyberark.service.CCPAuthenticationService;
 import com.saviynt.ssm.vaultconnector.cyberark.service.CCPAdapterService;
+import com.saviynt.ssm.vaultconnector.cyberark.service.CCPAuthenticationService;
 import com.saviynt.ssm.vaultconnector.cyberark.service.PVWAAdapterService;
 import com.saviynt.ssm.vaultconnector.cyberark.service.PVWAAuthenticationService;
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class CyberArkVaultConnector extends VaultConnectorSpecification {
 
@@ -119,52 +122,49 @@ public class CyberArkVaultConnector extends VaultConnectorSpecification {
     }
 
     public void setVaultConfig(VaultConfigVo configData) {
-        logger.debug("Entered in setVaultConfig");
+        logger.info("Entered in setVaultConfig");
         List<String> connectionAttributes = configData.getConnectionAttributes();
-		/*
-		  INTGN-2165
-		  adapterAttributes will added in the beginning of connection page in same order defined below
-		  then existing attributes from (configData.getConnectionAttributes()) will be added at the end of the connection page
-		*/
-            String[] adapterAttributes = new String[]{
-                    "INTEGRATION_MODE",
-                    "HOSTNAME",
-                    "PVWA_USERNAME",
-                    "PVWA_PASSWORD",
-                    "CCP_AUTH_CERTIFICATE",
-                    "CCP_AUTH_CERTIFICATE_PASSPHRASE"
-            };
-            List<String> allAttributes = new ArrayList<String>(Arrays.asList(adapterAttributes));
-            allAttributes.addAll(connectionAttributes);
-            allAttributes.remove("VAULTAPIMAPPINGJSON");
-            configData.setConnectionAttributes(allAttributes);
 
-            List<String> encryptedConnectionAttributes = configData.getEncryptedConnectionAttributes();
-            encryptedConnectionAttributes.add("PVWA_PASSWORD");
-            encryptedConnectionAttributes.add("CCP_AUTH_CERTIFICATE_PASSPHRASE");
+        String[] adapterAttributes = new String[]{
+                "INTEGRATION_MODE",
+                "HOSTNAME",
+                "PVWA_USERNAME",
+                "PVWA_PASSWORD",
+                "CCP_AUTH_CERTIFICATE",
+                "CCP_AUTH_CERTIFICATE_PASSPHRASE"
+        };
 
-            JSONObject jsonObject = null;
-            String ConnectionAttributesDescription = configData.getConnectionAttributesDescription();
-            if (StringUtils.isNotEmpty(ConnectionAttributesDescription)) {
-                jsonObject = new JSONObject(ConnectionAttributesDescription);
-            } else {
-                jsonObject = new JSONObject();
-            }
+        List<String> allAttributes = new ArrayList<String>(Arrays.asList(adapterAttributes));
+        allAttributes.addAll(connectionAttributes);
+        allAttributes.remove("VAULTAPIMAPPINGJSON");
+        configData.setConnectionAttributes(allAttributes);
 
-            jsonObject.put("INTEGRATION_MODE", "Select mode of integration");
-            jsonObject.put("HOSTNAME", "Enter CCP/PVWA hostname or IP address");
-            jsonObject.put("PVWA_USERNAME", "Enter Username to authenticate with PVWA service");
-            jsonObject.put("PVWA_PASSWORD", "Enter Password to authenticate with PVWA service");
-            jsonObject.put("CCP_AUTH_CERTIFICATE", "Enter PFX file name which will be used for CCP client certificate based authentication");
-            jsonObject.put("CCP_AUTH_CERTIFICATE_PASSPHRASE", "Provide passphrase to be used alongside CCP_AUTH_CERTIFICATE");
+        List<String> encryptedConnectionAttributes = configData.getEncryptedConnectionAttributes();
+        encryptedConnectionAttributes.add("PVWA_PASSWORD");
+        encryptedConnectionAttributes.add("CCP_AUTH_CERTIFICATE_PASSPHRASE");
 
-            configData.setConnectionAttributesDescription(jsonObject.toString());
+        JSONObject jsonObject = null;
+        String ConnectionAttributesDescription = configData.getConnectionAttributesDescription();
+        if (StringUtils.isNotEmpty(ConnectionAttributesDescription)) {
+            jsonObject = new JSONObject(ConnectionAttributesDescription);
+        } else {
+            jsonObject = new JSONObject();
+        }
 
-            List<String> requiredConnectionAttributes = configData.getRequiredConnectionAttributes();
-            requiredConnectionAttributes.add("INTEGRATION_MODE");
-            requiredConnectionAttributes.add("HOSTNAME");
+        jsonObject.put("INTEGRATION_MODE", "Enter mode of integration");
+        jsonObject.put("HOSTNAME", "Enter CCP/PVWA hostname or IP address");
+        jsonObject.put("PVWA_USERNAME", "Enter Username to authenticate with PVWA service");
+        jsonObject.put("PVWA_PASSWORD", "Enter Password to authenticate with PVWA service");
+        jsonObject.put("CCP_AUTH_CERTIFICATE", "Enter PFX file name which will be used for CCP client certificate based authentication");
+        jsonObject.put("CCP_AUTH_CERTIFICATE_PASSPHRASE", "Provide passphrase to be used alongside CCP_AUTH_CERTIFICATE");
 
-            logger.debug("Exiting from setVaultConfig");
+        configData.setConnectionAttributesDescription(jsonObject.toString());
+
+        List<String> requiredConnectionAttributes = configData.getRequiredConnectionAttributes();
+        requiredConnectionAttributes.add("INTEGRATION_MODE");
+        requiredConnectionAttributes.add("HOSTNAME");
+
+        logger.info("Exiting from setVaultConfig");
     }
 
     public Map dataFormatting(Map vaultConfigJSON) {

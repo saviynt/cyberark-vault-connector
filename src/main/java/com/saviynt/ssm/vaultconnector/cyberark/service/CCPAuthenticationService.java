@@ -16,8 +16,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.security.KeyStore;
 import java.util.Map;
 
@@ -40,7 +38,7 @@ public class CCPAuthenticationService {
 
             String authCertPath = getPEMKeyFilePath(authCert);
 
-            logger.info("Using " + authCertPath + " certificate for authentication to CCP host:"+hostName);
+            logger.info("Using " + authCert + " certificate for authentication to CCP host:"+hostName);
 
             KeyStore keyStore = KeyStore.getInstance("PKCS12");
 
@@ -81,7 +79,7 @@ public class CCPAuthenticationService {
             logger.error("Exception occurred in testCCPConnection() method : ", e);
             throw e;
         }
-        logger.debug("Exiting from testCCPConnection() method, connection status:" + status);
+        logger.info("Exiting from testCCPConnection() method, connection status:" + status);
         return status;
     }
 
@@ -98,6 +96,7 @@ public class CCPAuthenticationService {
                 if (!connectorFilesPath.endsWith("/"))
                     connectorFilesPath = connectorFilesPath + "/";
                 pemKeyFile = connectorFilesPath + pemKeyFile;
+                logger.info("Found the PEM key file specified in CCP_AUTH_CERTIFICATE");
             }
             if (!new File(pemKeyFile).exists()) {
                 logger.error("PEM key file specified in CCP_AUTH_CERTIFICATE is not found");
@@ -111,7 +110,6 @@ public class CCPAuthenticationService {
         }
         logger.info("Exiting from getPEMKeyFilePath method");
         return pemKeyFile;
-
     }
 
 
