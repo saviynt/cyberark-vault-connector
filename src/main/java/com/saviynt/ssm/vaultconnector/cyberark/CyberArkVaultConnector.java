@@ -29,10 +29,9 @@ public class CyberArkVaultConnector extends VaultConnectorSpecification {
 
     public static final String CONNECTOR_FILES = "CONNECTORFILES";
 
-    //update url to https
-    public static final String PVWA_AUTH_URL = "http://%s/PasswordVault/API/auth/CyberArk/Logon";
-    public static final String PVWA_API_URL = "http://%s/PasswordVault/API/Accounts/%s/Password/Retrieve";
-    public static final String PVWA_GET_ACCOUNTS_URL = "http://%s/PasswordVault/API/Accounts?filter=%s";
+    public static final String PVWA_AUTH_URL = "https://%s/PasswordVault/API/auth/CyberArk/Logon";
+    public static final String PVWA_API_URL = "https://%s/PasswordVault/API/Accounts/%s/Password/Retrieve";
+    public static final String PVWA_GET_ACCOUNTS_URL = "https://%s/PasswordVault/API/Accounts?filter=%s";
     public static final String CCP_API_URL = "https://%s/AIMWebService/api/Accounts";
 
     public String displayName() {
