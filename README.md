@@ -30,15 +30,14 @@ This document outlines the steps to use this connector.
 | HOSTNAME | Enter CCP/PVWA hostname or IP address for e.g. server.example.com or 10.20.30.40 |
 | PVWA_USERNAME | Enter Username to authenticate with PVWA service, this is used if INTEGRATION_MODE is PVWA |
 | PVWA_PASSWORD | Enter Password to authenticate with PVWA service, this is used if INTEGRATION_MODE is PVWA |
-| CCP_AUTH_CERTIFICATE | Enter PFX file name which will be used for CCP client certificate
-based authentication for e.g. TestCert.pfx, this is used if INTEGRATION_MODE is CCP. This file needs to be uploaded to File Directory -> Connector Files |
+| CCP_AUTH_CERTIFICATE | Enter PFX file name which will be used for CCP client certificate based authentication for e.g. TestCert.pfx, this is used if INTEGRATION_MODE is CCP. This file needs to be uploaded to File Directory -> Connector Files |
 | CCP_AUTH_CERTIFICATE_PASSPHRASE | Provide passphrase to be used alongside CCP_AUTH_CERTIFICATE |
 
 ## Use CyberArk Vault connector to get secret in IGA connector:
 1. Go to Connections -> Connection List -> Open a connection which requires to fetch a secret value from CyberArk vault, for e.g. any AD connection.
 2. Select Credential Vault Connection as "CyberArkVault".
 3. Click on Vault Config -> Advanced.
-4. Depending on INTEGRATION_MODE used in CyberArkVault connection, enter the vault config.<b>
+4. Depending on INTEGRATION_MODE used in CyberArkVault connection, enter the vault config.
 
 If INTEGRATION_MODE is CCP:
 ```
