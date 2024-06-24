@@ -8,8 +8,13 @@ The CyberArk Vault connector supports fetching secret from vault. It supports 2 
 This document outlines the steps to use this connector.
 
 ## Pre-Requisite:
-1. Ensure that you have a working client certificate (validated using Postman) for authentication with CCP. Please refer <b>[CyberArk documentation](https://docs.cyberark.com/credential-providers/Latest/en/Content/CCP/Configure_CCPWindows.htm#ConfigureClientAuthenticationwithclientcertificates)</b> for more details on generating the certificate.  
+1. Ensure that you have a working .pfx extension client certificate (validated using Postman) for authentication with CCP. Please refer <b>[CyberArk documentation](https://docs.cyberark.com/credential-providers/Latest/en/Content/CCP/Configure_CCPWindows.htm#ConfigureClientAuthenticationwithclientcertificates)</b> for more details on generating the certificate.  
 2.	Please raise a Saviynt support ticket for registering the <b>[Connector Jar](https://github.com/saviynt/cyberark-vault-connector/blob/main/target/cyberark-vault-connector.jar)</b> in your EIC environment.
+
+## Upload client certificate to EIC:
+1. Log in to EIC.
+2. Go to Admin -> File Directory -> Connector Files.
+3. Upload Client certificate (.pfx extension).
 
 ## Create connection type:
 1. Log in to EIC.
