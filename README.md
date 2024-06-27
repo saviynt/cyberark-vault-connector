@@ -5,6 +5,8 @@ The CyberArk Vault connector supports fetching secret from vault. It supports 2 
 1. PVWA mode of integration supports dynamic bearer token authentication.
 2. CCP mode of integration supports client certificate based authentication.
 
+This is developed using Saviynt Vault Connector Framework, it also enables configuring vault mapping for each secret parameter on the connection page, allowing it to work with connections that have more than one secret parameters.
+
 This document outlines the steps to use this connector.
 
 ## Pre-Requisite:
